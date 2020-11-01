@@ -1,0 +1,20 @@
+{% block content %}
+{% load static %}
+{% if user %}
+    <p> Name: {{ user|upper }}</p>
+    <p>Time of last login: {{ user.last_login }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Username: {{ user.username}}</p>
+    <p>Gender: {{ user.gender }}</p>
+    <p>Phone Number: {{ user.phone_number}}</p>
+    <p>Address:{{user.address}}</p>
+    <p>State: {{user.state}}</p>
+    <p>Country: {{user.country}}</p>
+    <p>Blood Group: {{user.blood_group[}}</p>
+    <p>Genotype: {{user.genotype}}</p>
+    <p>Height: {{user.height}}</p>
+    <p>Weight: {{user.weight}}</p>
+
+{% endif %}
+{% endblock %}
+<p><a href="{% url 'users:edit_profile' %}">Edit profile</a></p>
