@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
 ]
 
 MIDDLEWARE = [
@@ -128,7 +128,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'doctor.backends.DoctorAuthenticationBackend',
-    'doctor.backends.UserAuthenticationBackend',
+    'users.backends.UserAuthenticationBackend',
 ]
 
 #LOGIN_REDIRECT_URL = 'users:home'

@@ -3,11 +3,11 @@
 {%block content %}
 <h2>Login</h2>
 <form method="POST">
-        {%csrf_token%}
-        {{form.as_p}}
-        <button type="submit">Login</button>
+    {%csrf_token%}
+    {{form.as_p}}
+    <button type="submit">Login</button>
 </form>
 {% endblock %}
 
-<a href="{% url 'users:signup' 'user' %}"> Sign up </a><br>
-<a href="{% url 'doctor:signup' 'doctor'%}">Sign up as a doctor </a>
+<a href="{% url 'users:signup' %}"> Sign up </a><br>
+<a href="{% url 'doctor:signup' %}">Sign up as a doctor </a>
