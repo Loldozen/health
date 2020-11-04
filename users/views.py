@@ -14,19 +14,18 @@ from .models import Patient
 
 # Create your views here.
 
-def signup(request, access):
-    if access == 'user':
-        if request.method == 'POST':
-            form = PatientSignupForm(request.POST)
-            if form.is_valid():
-                user = form.save()
-                raw_password = form.cleaned_data.get('password1')
-                user = authenticate(email=user.email,password=raw_password)
-                messages.success(request,'Signup successful, you can login now')
-                return redirect('users:login')
-        else :
-            form = PatientSignupForm()
-        return render(request, 'users/signup.html', {'form':form})
+def signup(request):
+    if request.method == 'POST':
+        form = PatientSignupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(email=user.email,password=raw_password)
+            messages.success(request,'Signup successful, you can login now')
+            return redirect('users:login')
+    else :
+        form = PatientSignupForm()
+    return render(request, 'users/signup.html', {'form':form})
 
 def home(request):
     #return HttpResponse('This is the homepage, would work on it later')
@@ -49,24 +48,15 @@ class ProfileView(DetailView):
         return Patient.objects.get(pk=self.request.user.id, name=self.request.user.name)
 
 def patient_login(request):
-    
+    form = PatientLoginForm()
     if request.method == 'POST':
         form = PatientLoginForm(request.POST)
         if form.is_valid():
-            email = form.cleaned_data['email']
-            password = form.cleaned_data['password']
-            user = authenticate(request,email=email,password=password)
+            user = form.save()
             if user is not None:
-                if user.is_active:
-                    login(request, user, backend='doctor.backends.UserAuthenticationBackend' )
-                    messages.success(request, 'Login successful')
-                    return redirect('users:home')
-                else:
-                    return HttpResponse('Disabled account')
-            else:
-                return HttpResponse('Invalid login')
-    else:
-        form = PatientLoginForm()
+                login(request, user, backend='users.backends.UserAuthenticationBackend' )
+                messages.success(request, 'Login successful')
+                return redirect('users:home')
     return render(request, 'users/login.html', {'form':form})
 
 
@@ -88,7 +78,7 @@ def editProfile(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile updated succesfully')
-        else: 
+        else:
             messages.error(request, 'Error updating your profile')
     else:
         form = PatientSignupForm(instance=edit)
